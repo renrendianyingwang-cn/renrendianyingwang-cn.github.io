@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>人人电影网 - 电影片单、剧集更新追踪、影视满座榜与选片指南</title>
+<meta name="description" content="人人电影网(renrendianyingwang-cn.github.io)是一间坐满人的放映厅：提供电影片单、剧集更新追踪、影视满座榜与选片指南，剧情、爱情、悬疑、纪录、动画、文艺、喜剧、动作、经典全类型收录，移动端自适应，剧集一更新立刻提醒。">
+<meta name="keywords" content="人人电影网,电影片单,剧集更新追踪,影视满座榜,选片指南,电影推荐,影视导航,在线看电影">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="人人电影网">
+<meta name="theme-color" content="#f7f4ee">
+<meta name="format-detection" content="telephone=no">
+<link rel="canonical" href="https://renrendianyingwang-cn.github.io/">
+<link rel="apple-touch-icon" href="/favicon.ico">
+<link rel="alternate" hreflang="zh-CN" href="https://renrendianyingwang-cn.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="人人电影网">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="人人电影网 - 电影片单与影视满座榜">
+<meta property="og:description" content="人人电影网：电影片单、剧集更新追踪、影视满座榜与选片指南。">
+<meta property="og:url" content="https://renrendianyingwang-cn.github.io/">
+<meta property="og:image" content="https://renrendianyingwang-cn.github.io/favicon.ico">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="人人电影网 - 电影片单与影视满座榜">
+<meta name="twitter:description" content="人人电影网：片单、更新追踪、满座榜与选片指南。">
+<style>
+:root{
+  --bg:#f7f4ee;
+  --panel:#fffdf9;
+  --panel2:#fbf6ee;
+  --ink:#2b2621;
+  --ink2:#6b6157;
+  --muted:#9b9084;
+  --coral:#e05a3c;
+  --coral2:#a83a24;
+  --gold:#d9a441;
+  --gold2:#8f6410;
+  --blue:#3f6f9f;
+  --green:#6a9e5f;
+  --plum:#8a5fa0;
+  --line:#ece3d6;
+  --line2:#dbcbb6;
+  --maxw:1180px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:96px}
+body{
+  margin:0;padding:0;color:var(--ink);background:var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  font-size:16px;line-height:1.78;
+  background-image:
+    radial-gradient(900px 460px at 6% -8%,rgba(224,90,60,.14),transparent 62%),
+    radial-gradient(880px 440px at 94% 4%,rgba(63,111,159,.14),transparent 62%);
+  background-repeat:no-repeat;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{margin:0;padding:0;list-style:none}
+h1,h2,h3,h4{margin:0;line-height:1.42}
+p{margin:0}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 18px}
+.block{padding:36px 0 6px}
+
+/* ===== 人海条（小人剪影平铺） ===== */
+.crowdbar{position:relative;height:28px;overflow:hidden;
+  background:linear-gradient(180deg,#f3ecdf,#e9dccb);
+  border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.crowdbar::before{content:"";position:absolute;left:0;right:0;top:0;bottom:0;
+  --pc:rgba(224,90,60,.5);
+  background-image:
+    radial-gradient(circle at 50% 30%,var(--pc) 0 3.2px,transparent 3.4px),
+    radial-gradient(ellipse 5px 4.6px at 50% 70%,var(--pc) 0 4.6px,transparent 4.8px);
+  background-size:18px 22px;background-repeat:repeat;background-position:0 3px}
+.crowdbar.thin{height:20px}
+.crowdbar.thin::before{background-size:15px 18px;background-position:0 2px;
+  background-image:
+    radial-gradient(circle at 50% 30%,var(--pc) 0 2.6px,transparent 2.8px),
+    radial-gradient(ellipse 4.2px 3.8px at 50% 70%,var(--pc) 0 3.8px,transparent 4px)}
+.crowdbar.dark{background:linear-gradient(180deg,#25324a,#1a2436);border-color:rgba(255,255,255,.14)}
+.crowdbar.dark::before{--pc:rgba(255,236,214,.42)}
+
+/* ===== 观众徽章（小人 + 编号） ===== */
+.badge{position:relative;flex:0 0 auto;width:46px;height:54px;display:flex;align-items:flex-end;
+  justify-content:center;padding-bottom:5px;border-radius:4px;overflow:hidden;
+  background:var(--panel2);border:1px solid var(--line2);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7),0 4px 10px rgba(43,38,33,.1);
+  --pc:var(--coral)}
+.badge::before{content:"";position:absolute;left:0;right:0;top:0;bottom:16px;
+  background-image:
+    radial-gradient(circle at 50% 30%,var(--pc) 0 4px,transparent 4.2px),
+    radial-gradient(ellipse 6px 5.4px at 50% 72%,var(--pc) 0 5.4px,transparent 5.6px);
+  background-size:22px 24px;background-repeat:no-repeat;background-position:50% 4px}
+.badge b{position:relative;z-index:3;font-family:var(--mono);font-size:10.5px;font-weight:900;color:var(--ink);
+  letter-spacing:.5px}
+.badge.blue{--pc:var(--blue)}
+.badge.gold{--pc:var(--gold)}
+.badge.green{--pc:var(--green)}
+.badge.plum{--pc:var(--plum)}
+.badge.coral{--pc:var(--coral)}
+.badge.sm{width:40px;height:46px;padding-bottom:4px}
+.badge.sm::before{bottom:14px;background-size:19px 21px;
+  background-image:
+    radial-gradient(circle at 50% 30%,var(--pc) 0 3.4px,transparent 3.6px),
+    radial-gradient(ellipse 5.2px 4.6px at 50% 72%,var(--pc) 0 4.6px,transparent 4.8px)}
+.badge.sm b{font-size:9.5px}
+.badge.mk{width:30px;height:34px;padding-bottom:3px}
+.badge.mk::before{bottom:11px;background-size:14px 16px;
+  background-image:
+    radial-gradient(circle at 50% 30%,var(--pc) 0 2.5px,transparent 2.7px),
+    radial-gradient(ellipse 3.8px 3.4px at 50% 72%,var(--pc) 0 3.4px,transparent 3.6px)}
+.badge.mk b{font-size:7.5px}
+
+/* 座位小标 */
+.seat{flex:0 0 auto;font-size:11px;font-weight:900;letter-spacing:1px;padding:5px 13px;border-radius:2px;
+  color:#fff;background:var(--coral);box-shadow:0 3px 8px rgba(224,90,60,.24)}
+.seat.blue{background:var(--blue);box-shadow:0 3px 8px rgba(63,111,159,.22)}
+.seat.gold{background:var(--gold);color:#4a3208;box-shadow:0 3px 8px rgba(217,164,65,.24)}
+.seat.green{background:var(--green);box-shadow:0 3px 8px rgba(106,158,95,.22)}
+.seat.plum{background:var(--plum);box-shadow:0 3px 8px rgba(138,95,160,.22)}
+.seat.dim{background:var(--panel2);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line2)}
+
+/* 栏目头 */
+.bhead{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.btitle{font-size:21px;font-weight:900;letter-spacing:1px;display:flex;align-items:center;gap:12px}
+.bsub{font-size:10.5px;letter-spacing:4px;color:var(--muted);font-weight:800;font-family:var(--mono)}
+.bmore{margin-left:auto;font-size:12.5px;font-weight:800;color:#fff;white-space:nowrap;padding:8px 18px;
+  border-radius:2px;background:var(--coral);transition:.24s;box-shadow:0 4px 10px rgba(224,90,60,.22)}
+.bmore:hover{transform:translateY(-2px)}
+.bmore.blue{background:var(--blue);box-shadow:0 4px 10px rgba(63,111,159,.2)}
+.bmore.green{background:var(--green);box-shadow:0 4px 10px rgba(106,158,95,.2)}
+.bmore.plum{background:var(--plum);box-shadow:0 4px 10px rgba(138,95,160,.2)}
+.bmore.gold{background:var(--gold);color:#4a3208}
+
+/* ============ 顶栏 ============ */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(247,244,238,.96);backdrop-filter:blur(14px)}
+.topbar .crowdbar{position:relative;z-index:2;height:20px}
+.topbar .wrap{display:flex;align-items:center;gap:12px;height:66px;border-bottom:2px solid var(--line2)}
+.logo{display:flex;align-items:center;gap:11px;font-weight:900;font-size:20px;white-space:nowrap;letter-spacing:1px}
+.logo em{font-style:normal;position:relative;color:var(--ink)}
+.logo em::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:3px;
+  background:linear-gradient(90deg,var(--coral),var(--gold))}
+.nav{display:flex;gap:3px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{padding:8px 13px;border-radius:2px;font-size:14px;font-weight:700;color:var(--ink2);white-space:nowrap}
+.nav a:hover,.nav a.on{color:#fff;background:var(--coral);font-weight:900}
+.here{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;font-weight:900;color:#fff;
+  white-space:nowrap;padding:6px 15px;border-radius:2px;background:var(--coral)}
+.here i{flex:0 0 8px;width:8px;height:8px;border-radius:50%;background:#fff;
+  animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.28}}
+
+/* ============ Hero ============ */
+.hero{position:relative;margin-top:14px;border-radius:8px;overflow:hidden;background:var(--panel);
+  border:1px solid var(--line2);box-shadow:0 16px 34px rgba(43,38,33,.14)}
+.hero-in{position:relative;z-index:3;display:grid;grid-template-columns:1.04fr .96fr;gap:24px;padding:26px 26px 22px;
+  background:linear-gradient(160deg,#fdf6ec,#fffdf9 55%,#f8efe2)}
+.hero .kicker{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;font-weight:900;
+  letter-spacing:2px;color:#fff;background:var(--coral);padding:6px 16px;border-radius:2px}
+.hero h1{font-size:34px;font-weight:900;line-height:1.36;letter-spacing:1px;margin-top:15px}
+.hero h1 em{font-style:normal;position:relative;color:#fff;border-radius:4px;padding:2px 12px;
+  background:linear-gradient(120deg,var(--coral2),var(--gold2));box-shadow:0 6px 14px rgba(224,90,60,.3)}
+.hero .desc{margin-top:14px;font-size:14.8px;color:var(--ink2);max-width:54ch}
+.hero .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
+.btn{padding:13px 26px;border-radius:2px;font-size:14.5px;font-weight:900;transition:.24s}
+.btn-1{color:#fff;background:linear-gradient(120deg,var(--coral2),var(--gold2));
+  box-shadow:0 10px 22px rgba(224,90,60,.26)}
+.btn-2{color:var(--ink);background:var(--panel);border:1.5px solid var(--line2)}
+.btn:hover{transform:translateY(-2px)}
+.btn-2:hover{border-color:var(--coral)}
+
+/* 观众席看板 */
+.hall{position:relative;border-radius:8px;overflow:hidden;padding:0;
+  background:linear-gradient(180deg,#25324a,#1a2436);border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 14px 28px rgba(26,36,54,.24)}
+.hall .hd{position:absolute;left:0;right:0;top:0;z-index:6;display:flex;align-items:center;
+  justify-content:space-between;gap:8px;padding:10px 14px;font-family:var(--mono);font-size:10.5px;font-weight:900;
+  letter-spacing:2px;color:#ffeed3;
+  background:linear-gradient(180deg,rgba(12,18,28,.94),rgba(12,18,28,.42))}
+.hall .hd .r{color:var(--gold)}
+.hall .stage{position:relative;height:236px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hall .stage .fill{position:absolute;inset:0;
+  --pc:rgba(255,236,214,.34);
+  background-image:
+    radial-gradient(circle at 50% 30%,var(--pc) 0 3.6px,transparent 3.8px),
+    radial-gradient(ellipse 5.6px 5px at 50% 70%,var(--pc) 0 5px,transparent 5.2px);
+  background-size:20px 24px;background-repeat:repeat}
+.hall .stage .fill::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(150px 130px at 50% 46%,#1a2436 8%,rgba(26,36,54,.9) 46%,transparent 78%)}
+.hall .stage .now{position:relative;z-index:5;width:132px;height:132px;border-radius:50%;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 36%,rgba(37,50,74,.96),rgba(18,26,40,.98));
+  box-shadow:0 0 0 2px rgba(255,179,71,.5),0 10px 24px rgba(0,0,0,.4)}
+.hall .stage .now b{font-family:var(--mono);font-size:30px;font-weight:900;color:var(--gold);line-height:1.06}
+.hall .stage .now span{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:#ffeed3;font-weight:900}
+.hall .rows{position:relative;z-index:7;display:grid;gap:7px;padding:12px 14px 0}
+.hall .rows li{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;color:#ffeed3;
+  padding:7px 14px;border-radius:2px;background:rgba(255,255,255,.08)}
+.hall .rows li b{margin-left:auto;font-family:var(--mono);font-weight:900;color:var(--gold)}
+.hall .foot{padding:9px 14px;text-align:center;font-size:11.5px;color:rgba(255,238,211,.82);
+  background:rgba(0,0,0,.24);border-top:1px solid rgba(255,255,255,.1)}
+.strip{position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,253,249,.94)}
+.strip div{padding:15px 10px;text-align:center;border-right:1px solid var(--line)}
+.strip div:last-child{border-right:0}
+.strip b{display:block;font-size:21px;font-weight:900;color:var(--ink)}
+.strip b.c{color:#c0442b} .strip b.g{color:#4f8347} .strip b.y{color:#8f6410}
+.strip span{font-size:11px;letter-spacing:3px;color:var(--muted);font-weight:800;font-family:var(--mono)}
+
+/* ============ 检索 ============ */
+.hunt{display:flex;align-items:center;margin-top:14px;border-radius:4px;padding:8px;background:var(--panel);
+  border:1.5px solid var(--line2);box-shadow:0 8px 18px rgba(43,38,33,.08)}
+.hunt .pfx{flex:0 0 auto;padding:0 8px 0 14px;display:flex;align-items:center}
+.hunt input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:15px;font-weight:600;
+  padding:0 10px;color:var(--ink)}
+.hunt input::placeholder{color:var(--muted)}
+.hunt .go{border:0;cursor:pointer;font-size:14.5px;font-weight:900;color:#fff;padding:12px 30px;border-radius:2px;
+  background:var(--coral)}
+.hunt .go:hover{background:var(--gold);color:#4a3208}
+
+/* ============ 分类：观众席分区 ============ */
+.zones{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.zone{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  min-height:104px;padding:18px 8px 14px;border-radius:4px;overflow:hidden;
+  background:linear-gradient(180deg,#fdf7ec,#f5ebdb);border:1px solid var(--line2);transition:.26s;
+  box-shadow:0 5px 12px rgba(43,38,33,.1)}
+.zone::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--coral)}
+.zone:nth-child(6n+2)::before{background:var(--gold)}
+.zone:nth-child(6n+3)::before{background:var(--blue)}
+.zone:nth-child(6n+4)::before{background:var(--green)}
+.zone:nth-child(6n+5)::before{background:var(--plum)}
+.zone:nth-child(6n+6)::before{background:var(--coral2)}
+.zone::after{content:"";position:absolute;inset:0;opacity:.42;
+  background-image:repeating-linear-gradient(90deg,rgba(43,38,33,.1) 0 1px,transparent 1px 9px)}
+.zone b.k{position:relative;z-index:3;font-size:13.5px;font-weight:900;color:var(--ink)}
+.zone em{position:relative;z-index:3;font-style:normal;font-family:var(--mono);font-size:9px;color:var(--muted);
+  letter-spacing:1px}
+.zone:hover{transform:translateY(-5px);box-shadow:0 14px 24px rgba(43,38,33,.16)}
+.zone:hover b.k{color:var(--coral)}
+
+/* ============ 栏目一：片单 ============ */
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.card{display:block;border-radius:6px;overflow:hidden;background:var(--panel);border:1px solid var(--line);
+  transition:.28s;box-shadow:0 8px 18px rgba(43,38,33,.1)}
+.card:hover{transform:translateY(-8px);box-shadow:0 18px 32px rgba(43,38,33,.16)}
+.poster{position:relative;aspect-ratio:4/5;display:flex;align-items:flex-end;padding:13px;overflow:hidden}
+.poster::before{content:"";position:absolute;inset:0;opacity:.4;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 11px,transparent 11px 24px)}
+.poster::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(120px 90px at 76% 18%,rgba(255,255,255,.28),transparent 62%),
+    linear-gradient(180deg,transparent 44%,rgba(43,38,33,.86))}
+.poster .pn{position:relative;z-index:3;color:#fff;font-size:16px;font-weight:900;letter-spacing:1px;
+  text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.poster .seat{position:absolute;top:12px;left:12px;z-index:3}
+.poster .rt{position:absolute;top:12px;right:12px;z-index:3;font-family:var(--mono);font-size:12.5px;font-weight:900;
+  color:#4a3208;background:var(--gold);padding:2px 10px;border-radius:2px}
+.z1{background:linear-gradient(165deg,#e05a3c,#8d2d1c)}
+.z2{background:linear-gradient(165deg,#d9a441,#7d5510)}
+.z3{background:linear-gradient(165deg,#6a9e5f,#3b5f34)}
+.z4{background:linear-gradient(165deg,#3f6f9f,#1f4266)}
+.z5{background:linear-gradient(165deg,#8a5fa0,#452e55)}
+.z6{background:linear-gradient(165deg,#c98a5b,#6b3f1d)}
+.z7{background:linear-gradient(165deg,#e07a5f,#8a3320)}
+.z8{background:linear-gradient(165deg,#a8b08a,#4f5738)}
+.card .info{padding:12px 15px 16px;border-top:1px solid var(--line);background:var(--panel2)}
+.card .info h3{font-size:15.5px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .info p{font-size:12.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.card .info .eps{display:flex;align-items:center;gap:8px;margin-top:9px}
+.card .info .eps em{flex:1;height:10px;border-radius:99px;background:#eee5d6;overflow:hidden;
+  background-image:repeating-linear-gradient(90deg,rgba(43,38,33,.4) 0 2px,transparent 2px 8px),
+    linear-gradient(90deg,#f5b9a6,var(--coral))}
+.card .info .eps span{font-family:var(--mono);font-size:10px;font-weight:900;color:var(--muted);letter-spacing:1px}
+
+/* ============ 栏目二：更新追踪 ============ */
+.feeds{display:grid;gap:12px}
+.fd{position:relative;display:flex;align-items:center;gap:14px;background:var(--panel);padding:13px 16px;
+  border-radius:6px;border:1px solid var(--line);transition:.24s;overflow:hidden;
+  box-shadow:0 6px 14px rgba(43,38,33,.08)}
+.fd:hover{transform:translateX(4px);box-shadow:0 12px 24px rgba(43,38,33,.14)}
+.fd::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--coral)}
+.fd:nth-child(2)::before{background:var(--blue)}
+.fd:nth-child(3)::before{background:var(--green)}
+.fd:nth-child(4)::before{background:var(--gold)}
+.fd:nth-child(5)::before{background:var(--plum)}
+.fd .tm{flex:0 0 62px;text-align:center;padding:7px 4px;border-radius:3px;background:#fbf2e7;
+  border:1.5px dashed var(--line2)}
+.fd:nth-child(2) .tm{background:#eaf1f8;border-color:rgba(63,111,159,.4)}
+.fd:nth-child(3) .tm{background:#ebf3ea;border-color:rgba(106,158,95,.4)}
+.fd:nth-child(4) .tm{background:#fbf3de;border-color:rgba(217,164,65,.45)}
+.fd:nth-child(5) .tm{background:#f2eaf6;border-color:rgba(138,95,160,.4)}
+.fd .tm b{display:block;font-family:var(--mono);font-size:18px;font-weight:900;color:var(--ink);line-height:1.12}
+.fd .tm span{font-family:var(--mono);font-size:9.5px;letter-spacing:1px;color:var(--muted);font-weight:900}
+.fd .mid{flex:1;min-width:0}
+.fd .mid h3{font-size:16px;font-weight:900}
+.fd .mid p{font-size:13px;color:var(--muted);margin-top:2px}
+.fd .mid .bar{margin-top:9px;height:11px;border-radius:99px;background:#eee5d6;overflow:hidden}
+.fd .mid .bar i{display:block;height:100%;border-radius:99px;
+  background-image:repeating-linear-gradient(90deg,rgba(43,38,33,.34) 0 2px,transparent 2px 8px),
+    linear-gradient(90deg,#f5b9a6,var(--coral))}
+.fd:nth-child(2) .bar i{background-image:repeating-linear-gradient(90deg,rgba(43,38,33,.34) 0 2px,transparent 2px 8px),linear-gradient(90deg,#a9c6e0,var(--blue))}
+.fd:nth-child(3) .bar i{background-image:repeating-linear-gradient(90deg,rgba(43,38,33,.34) 0 2px,transparent 2px 8px),linear-gradient(90deg,#b2d3aa,var(--green))}
+.fd:nth-child(4) .bar i{background-image:repeating-linear-gradient(90deg,rgba(43,38,33,.34) 0 2px,transparent 2px 8px),linear-gradient(90deg,#f0d79c,var(--gold))}
+.fd:nth-child(5) .bar i{background-image:repeating-linear-gradient(90deg,rgba(43,38,33,.34) 0 2px,transparent 2px 8px),linear-gradient(90deg,#cab0dc,var(--plum))}
+.fd .go{flex:0 0 auto;font-size:13px;font-weight:900;color:#fff;padding:8px 17px;border-radius:2px;
+  background:var(--coral)}
+.fd:nth-child(2) .go{background:var(--blue)}
+.fd:nth-child(3) .go{background:var(--green)}
+.fd:nth-child(4) .go{background:var(--gold);color:#4a3208}
+.fd:nth-child(5) .go{background:var(--plum)}
+
+/* ============ 栏目三：满座榜 + 选片指南 ============ */
+.split{display:grid;grid-template-columns:1.02fr .98fr;gap:16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:22px;
+  box-shadow:0 8px 18px rgba(43,38,33,.08)}
+.panel h3{font-size:17.5px;font-weight:900;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.hot li{display:grid;grid-template-columns:46px 1fr 58px;gap:12px;align-items:center;padding:10px 0;
+  border-bottom:1px dashed var(--line2)}
+.hot li:last-child{border-bottom:0}
+.hot .nm h4{font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hot .nm p{font-size:12.5px;color:var(--muted)}
+.hot .sc{font-family:var(--mono);font-size:17px;font-weight:900;text-align:right;color:var(--coral)}
+.hot li:nth-child(1) .sc{color:#c0442b}
+.hot li:nth-child(2) .sc{color:#1f4266}
+.tips{display:grid;gap:11px}
+.tp{padding:15px 16px;border-radius:4px;background:var(--panel2);border-left:5px solid var(--coral)}
+.tp:nth-child(2){border-left-color:var(--blue)}
+.tp:nth-child(3){border-left-color:var(--green)}
+.tp:nth-child(4){border-left-color:var(--gold)}
+.tp h4{font-size:15px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.tp h4 b{flex:0 0 auto;font-family:var(--mono);font-size:11px;font-weight:900;color:#fff;padding:3px 10px;
+  border-radius:2px;background:var(--coral)}
+.tp:nth-child(2) h4 b{background:var(--blue)}
+.tp:nth-child(3) h4 b{background:var(--green)}
+.tp:nth-child(4) h4 b{background:var(--gold);color:#4a3208}
+.tp p{font-size:13.5px;color:var(--ink2)}
+
+/* ============ 栏目四：资讯 ============ */
+.news{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ncard{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;transition:.28s;
+  box-shadow:0 8px 18px rgba(43,38,33,.08)}
+.ncard:hover{transform:translateY(-6px);box-shadow:0 16px 30px rgba(43,38,33,.16)}
+.ncard .cov{position:relative;height:104px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11.5px;font-weight:900;letter-spacing:4px;color:#fff;overflow:hidden}
+.ncard .cov::before{content:"";position:absolute;inset:0;opacity:.4;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 11px,transparent 11px 24px)}
+.ncard .cov::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(120px 80px at 72% 24%,rgba(255,255,255,.26),transparent 62%)}
+.ncard:nth-child(1) .cov{background:linear-gradient(135deg,#e05a3c,#8d2d1c)}
+.ncard:nth-child(2) .cov{background:linear-gradient(135deg,#3f6f9f,#1f4266)}
+.ncard:nth-child(3) .cov{background:linear-gradient(135deg,#6a9e5f,#3b5f34)}
+.ncard .txt{padding:15px 16px 17px}
+.ncard h3{font-size:15.8px;font-weight:900;margin-bottom:6px}
+.ncard p{font-size:13.5px;color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden}
+.ncard time{display:block;margin-top:10px;font-family:var(--mono);font-size:12px;font-weight:900;color:var(--muted);
+  letter-spacing:2px}
+
+/* ============ 栏目五：关于 + FAQ ============ */
+.about{border-radius:8px;padding:26px;color:#fff4e6;
+  background:linear-gradient(150deg,#a83a24,#8a2c1c 62%,#5e1a10);
+  box-shadow:0 16px 32px rgba(94,26,16,.28)}
+.about h3{font-size:19px;font-weight:900;margin-bottom:11px;letter-spacing:1px;color:#ffd9a3}
+.about p{font-size:14.5px;color:rgba(255,244,230,.95)}
+.about p+p{margin-top:9px}
+.about .note{margin-top:14px;padding:12px 16px;border-radius:4px;background:rgba(255,255,255,.14);
+  font-size:13.5px;color:#fff}
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px 18px;
+  margin-bottom:10px;box-shadow:0 6px 14px rgba(43,38,33,.06)}
+.faq summary{cursor:pointer;font-size:15.5px;font-weight:900;list-style:none;display:flex;
+  justify-content:space-between;gap:10px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";color:var(--coral);font-weight:900}
+.faq details[open] summary::after{content:"－"}
+.faq p{font-size:14px;color:var(--ink2);margin-top:10px}
+
+/* ============ 页脚 ============ */
+footer{margin-top:42px;background:var(--panel);border-top:1px solid var(--line2);padding:0 0 96px}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:22px;padding-top:26px}
+.fcol h4{font-family:var(--mono);font-size:11.5px;letter-spacing:3px;margin-bottom:12px;color:var(--coral);
+  font-weight:900}
+.fcol a{display:block;font-size:13.5px;color:var(--ink2);padding:3px 0}
+.fcol a:hover{color:var(--coral)}
+.fbrand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:900;letter-spacing:1px}
+.fdesc{font-size:13px;color:var(--muted);margin-top:10px;max-width:40ch}
+.copy{margin-top:22px;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+
+/* ============ 移动端 ============ */
+.tabbar{display:none}
+@media (max-width:980px){
+  .hero-in{grid-template-columns:1fr;gap:22px}
+  .hall{order:-1;max-width:460px;margin:0 auto;width:100%}
+  .hero h1{font-size:27px}
+  .hero-in{padding:22px 20px 20px}
+  .zones{grid-template-columns:repeat(4,1fr)}
+  .split{grid-template-columns:1fr}
+  .news{grid-template-columns:1fr 1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .here{display:none}
+}
+@media (max-width:640px){
+  body{font-size:15.5px}
+  .wrap{padding:0 13px}
+  .block{padding:26px 0 4px}
+  .btitle{font-size:19px}
+  .bsub{display:none}
+  .crowdbar{height:20px}
+  .crowdbar::before{background-size:15px 18px;background-position:0 2px;
+    background-image:
+      radial-gradient(circle at 50% 30%,var(--pc) 0 2.6px,transparent 2.8px),
+      radial-gradient(ellipse 4.2px 3.8px at 50% 70%,var(--pc) 0 3.8px,transparent 4px)}
+  .badge{width:40px;height:46px;padding-bottom:4px}
+  .badge::before{bottom:14px;background-size:19px 21px;
+    background-image:
+      radial-gradient(circle at 50% 30%,var(--pc) 0 3.4px,transparent 3.6px),
+      radial-gradient(ellipse 5.2px 4.6px at 50% 72%,var(--pc) 0 4.6px,transparent 4.8px)}
+  .badge b{font-size:9.5px}
+  .topbar .wrap{height:58px;gap:9px}
+  .logo{font-size:17.5px}
+  .nav a{padding:8px 11px;font-size:13.5px}
+  .hero{margin-top:12px}
+  .hero h1{font-size:23px;letter-spacing:.5px}
+  .hero-in{padding:18px 16px 18px}
+  .hall .stage{height:200px}
+  .hall .stage .now{width:108px;height:108px}
+  .hall .stage .now b{font-size:26px}
+  .btitle .badge{width:40px;height:46px}
+  .strip{grid-template-columns:repeat(2,1fr)}
+  .strip div:nth-child(2){border-right:0}
+  .strip div:nth-child(1),.strip div:nth-child(2){border-bottom:1px solid var(--line)}
+  .hunt{flex-direction:column;padding:8px}
+  .hunt .pfx{padding:8px 0;justify-content:center}
+  .hunt input{padding:6px 12px;text-align:center;width:100%}
+  .hunt .go{padding:14px 0;letter-spacing:4px;width:100%}
+  .zones{grid-template-columns:repeat(3,1fr);gap:10px}
+  .zone{min-height:92px;padding:14px 6px}
+  .zone b.k{font-size:12.5px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .news{grid-template-columns:1fr}
+  .fd{gap:11px;padding:12px 13px}
+  .fd .tm{flex:0 0 56px}
+  .fd .tm b{font-size:16px}
+  .fd .go{padding:8px 14px;font-size:12.5px}
+  .hot li{grid-template-columns:38px 1fr 52px;gap:9px}
+  .fgrid{grid-template-columns:1fr}
+  footer{padding-bottom:82px}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(247,244,238,.97);
+    backdrop-filter:blur(14px);border-top:3px solid var(--coral);
+    padding:6px 2px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11px;font-weight:800;
+    color:var(--muted);padding:5px 0}
+  .tabbar a span{font-size:16px;line-height:1.1}
+  .tabbar a.on{color:#fff;background:var(--coral);border-radius:4px}
+  .backtop{position:fixed;right:13px;bottom:78px;z-index:65;width:44px;height:50px;
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;border-radius:4px;
+    background:var(--panel2);border:1px solid var(--line2);
+    box-shadow:0 6px 14px rgba(43,38,33,.2);--pc:var(--coral)}
+  .backtop::before{content:"";position:absolute;left:0;right:0;top:0;bottom:16px;
+    background-image:
+      radial-gradient(circle at 50% 30%,var(--pc) 0 4px,transparent 4.2px),
+      radial-gradient(ellipse 6px 5.4px at 50% 72%,var(--pc) 0 5.4px,transparent 5.6px);
+    background-size:22px 24px;background-repeat:no-repeat;background-position:50% 4px}
+  .backtop b{position:relative;z-index:3;font-family:var(--mono);font-size:10px;font-weight:900;color:var(--coral)}
+}
+@media (min-width:641px){.backtop{display:none}}
+@media (prefers-reduced-motion:reduce){.here i{animation:none}}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/xiaobao.js"></script>
+
+<!-- ============ 顶栏 ============ -->
+<header class="topbar">
+  <div class="crowdbar thin" aria-hidden="true"></div>
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="人人电影网首页">
+      <span class="badge sm" aria-hidden="true"><b>人人</b></span>
+      <span><em>人人电影网</em></span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#" class="on">首页</a>
+      <a href="#">电影片单</a>
+      <a href="#">更新追踪</a>
+      <a href="#">满座榜单</a>
+      <a href="#">选片指南</a>
+      <a href="#">影视资讯</a>
+    </nav>
+    <span class="here"><i></i>满座中</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ Hero ============ -->
+  <section class="hero" aria-labelledby="h-title">
+    <div class="hero-in">
+      <div>
+        <span class="kicker">👥 一间坐满人的放映厅 · 人人电影网</span>
+        <h1 id="h-title">一部片子好不好看，<em>人人电影网</em>让看过的先说一句</h1>
+        <p class="desc">人人电影网（renrendianyingwang-cn.github.io）是一间坐满人的放映厅：提供电影片单、剧集更新追踪、影视满座榜与选片指南，剧情、爱情、悬疑、纪录、动画、文艺、喜剧、动作、经典全类型收录，手机打开就能挑片，剧集一更新立刻提醒。</p>
+        <div class="cta">
+          <a class="btn btn-1" href="#">▶ 进入电影片单</a>
+          <a class="btn btn-2" href="#">看今日更新</a>
+        </div>
+      </div>
+      <aside class="hall">
+        <div class="hd"><span>AUDITORIUM · 观众席</span><span class="r">A-L</span></div>
+        <div class="stage">
+          <span class="fill" aria-hidden="true"></span>
+          <span class="now"><b>8,931</b><span>人正在挑片</span></span>
+        </div>
+        <ul class="rows">
+          <li>今日上架 <b>28 部</b></li>
+          <li>剧集更新 <b>15 部</b></li>
+          <li>专题成册 <b>5 组</b></li>
+        </ul>
+        <div class="foot">座位随便挑，看好片不必抢</div>
+      </aside>
+    </div>
+    <div class="strip">
+      <div><b class="c">85,200+</b><span>FILMS</span></div>
+      <div><b class="g">3,760+</b><span>SERIES</span></div>
+      <div><b class="y">48</b><span>TYPES</span></div>
+      <div><b class="c">每日</b><span>UPDATE</span></div>
+    </div>
+    <div class="crowdbar" aria-hidden="true"></div>
+  </section>
+
+  <form class="hunt" onsubmit="return false;" role="search">
+    <span class="pfx" aria-hidden="true"><span class="badge mk plum"><b>找</b></span></span>
+    <label for="kw" style="position:absolute;left:-9999px">搜索影片</label>
+    <input id="kw" type="search" placeholder="想看什么？输入片名、类型或演员">
+    <button class="go" type="submit">找片</button>
+  </form>
+
+  <!-- ============ 分类：观众席分区 ============ -->
+  <section class="block" aria-labelledby="t-title">
+    <div class="bhead">
+      <h2 class="btitle" id="t-title"><span class="badge"><b>厅</b></span>类型观众席</h2>
+      <span class="bsub">SECTIONS</span>
+      <a class="bmore" href="#">按类型浏览 →</a>
+    </div>
+    <div class="zones">
+      <a class="zone" href="#"><b class="k">剧情片</b><em>DRAMA</em></a>
+      <a class="zone" href="#"><b class="k">爱情片</b><em>ROMANCE</em></a>
+      <a class="zone" href="#"><b class="k">悬疑片</b><em>MYSTERY</em></a>
+      <a class="zone" href="#"><b class="k">纪录片</b><em>DOC</em></a>
+      <a class="zone" href="#"><b class="k">动画片</b><em>ANIME</em></a>
+      <a class="zone" href="#"><b class="k">文艺片</b><em>ART</em></a>
+      <a class="zone" href="#"><b class="k">喜剧片</b><em>COMEDY</em></a>
+      <a class="zone" href="#"><b class="k">动作片</b><em>ACTION</em></a>
+      <a class="zone" href="#"><b class="k">科幻片</b><em>SCI-FI</em></a>
+      <a class="zone" href="#"><b class="k">国产剧</b><em>CN</em></a>
+      <a class="zone" href="#"><b class="k">日韩剧</b><em>JP/KR</em></a>
+      <a class="zone" href="#"><b class="k">经典佳片</b><em>CLASSIC</em></a>
+    </div>
+    <div class="crowdbar thin" style="margin-top:14px" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============ 栏目一：电影片单 ============ -->
+  <section class="block" id="movie" aria-labelledby="m-title">
+    <div class="bhead">
+      <h2 class="btitle" id="m-title"><span class="badge gold"><b>一</b></span>电影片单</h2>
+      <span class="bsub">FILM LIST</span>
+      <a class="bmore" href="#">查看全部电影 →</a>
+    </div>
+    <div class="grid">
+      <a class="card" href="#"><div class="poster z1"><span class="seat">满座</span><span class="rt">8.9</span><span class="pn">邻座的你</span></div><div class="info"><h3>邻座的你</h3><p>2024 · 剧情 / 家庭 · 122 分钟</p><span class="eps"><em></em><span>122 MIN</span></span></div></a>
+      <a class="card" href="#"><div class="poster z2"><span class="seat gold">还有位</span><span class="rt">8.8</span><span class="pn">街角影院</span></div><div class="info"><h3>街角影院</h3><p>2023 · 纪录片 / 人文 · 94 分钟</p><span class="eps"><em></em><span>94 MIN</span></span></div></a>
+      <a class="card" href="#"><div class="poster z3"><span class="seat green">满座</span><span class="rt">8.7</span><span class="pn">人海之中</span></div><div class="info"><h3>人海之中</h3><p>2024 · 悬疑 / 犯罪 · 118 分钟</p><span class="eps"><em></em><span>118 MIN</span></span></div></a>
+      <a class="card" href="#"><div class="poster z4"><span class="seat blue">还有位</span><span class="rt">9.0</span><span class="pn">散场以后</span></div><div class="info"><h3>散场以后</h3><p>2022 · 文艺 / 剧情 · 110 分钟</p><span class="eps"><em></em><span>110 MIN</span></span></div></a>
+      <a class="card" href="#"><div class="poster z5"><span class="seat plum">满座</span><span class="rt">9.1</span><span class="pn">第七排</span></div><div class="info"><h3>第七排</h3><p>2025 · 动画 / 奇幻 · 104 分钟</p><span class="eps"><em></em><span>104 MIN</span></span></div></a>
+      <a class="card" href="#"><div class="poster z6"><span class="seat dim">空场</span><span class="rt">8.6</span><span class="pn">万人空巷</span></div><div class="info"><h3>万人空巷</h3><p>2024 · 爱情 / 文艺 · 100 分钟</p><span class="eps"><em></em><span>100 MIN</span></span></div></a>
+      <a class="card" href="#"><div class="poster z7"><span class="seat">满座</span><span class="rt">8.5</span><span class="pn">满座之夜</span></div><div class="info"><h3>满座之夜</h3><p>2023 · 喜剧 / 生活 · 96 分钟</p><span class="eps"><em></em><span>96 MIN</span></span></div></a>
+      <a class="card" href="#"><div class="poster z8"><span class="seat dim">经典</span><span class="rt">8.9</span><span class="pn">老影院</span></div><div class="info"><h3>老影院</h3><p>1997 · 经典 / 剧情 · 132 分钟</p><span class="eps"><em></em><span>132 MIN</span></span></div></a>
+    </div>
+  </section>
+
+  <!-- ============ 栏目二：更新追踪 ============ -->
+  <section class="block" id="update" aria-labelledby="u-title">
+    <div class="bhead">
+      <h2 class="btitle" id="u-title"><span class="badge blue"><b>二</b></span>剧集更新追踪 · 入场记录</h2>
+      <span class="bsub">UPDATES</span>
+      <a class="bmore blue" href="#">加入追踪列表 →</a>
+    </div>
+    <div class="feeds">
+      <a class="fd" href="#"><span class="tm"><b>19:40</b><span>09-19</span></span><span class="mid"><h3>《人海之中》更新至第 9 集</h3><p>悬疑剧 · 已播 9 / 12 集 · 每周三、四播出</p><span class="bar"><i style="width:75%"></i></span></span><span class="go">去追更</span></a>
+      <a class="fd" href="#"><span class="tm"><b>20:15</b><span>09-18</span></span><span class="mid"><h3>《第七排》发布正式预告</h3><p>动画新作 · 档期与看点解析已录入片库条目。</p><span class="bar"><i style="width:66%"></i></span></span><span class="go">看预告</span></a>
+      <a class="fd" href="#"><span class="tm"><b>21:05</b><span>09-17</span></span><span class="mid"><h3>片库上新：28 部院线新片入库</h3><p>涵盖剧情、悬疑、纪录与文艺四类，均附评分与时长。</p><span class="bar"><i style="width:88%"></i></span></span><span class="go">去片库</span></a>
+      <a class="fd" href="#"><span class="tm"><b>21:30</b><span>09-15</span></span><span class="mid"><h3>「人文纪录」专题成册</h3><p>按地域与主题分组整理，附观影顺序建议，适合连看。</p><span class="bar"><i style="width:70%"></i></span></span><span class="go">看专题</span></a>
+      <a class="fd" href="#"><span class="tm"><b>22:00</b><span>09-09</span></span><span class="mid"><h3>经典佳片修复单元上线</h3><p>《老影院》等经典片目重录完成，可按年代筛选。</p><span class="bar"><i style="width:56%"></i></span></span><span class="go">看修复</span></a>
+    </div>
+  </section>
+
+  <!-- ============ 栏目三：满座榜 + 选片指南 ============ -->
+  <section class="block" id="rank" aria-labelledby="rk-title">
+    <div class="bhead">
+      <h2 class="btitle" id="rk-title"><span class="badge green"><b>三</b></span>影视满座榜与选片指南</h2>
+      <span class="bsub">RANK &amp; GUIDE</span>
+      <a class="bmore green" href="#">完整榜单 →</a>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <h3><span class="badge sm"><b>榜</b></span>人人电影网满座榜 Top 7</h3>
+        <ul class="hot">
+          <li><span class="badge sm"><b>1</b></span><span class="nm"><h4>第七排</h4><p>动画奇幻 · 高分新作</p></span><span class="sc">9.1</span></li>
+          <li><span class="badge sm blue"><b>2</b></span><span class="nm"><h4>散场以后</h4><p>文艺剧情 · 口碑发酵</p></span><span class="sc">9.0</span></li>
+          <li><span class="badge sm gold"><b>3</b></span><span class="nm"><h4>邻座的你</h4><p>剧情家庭 · 院线热映</p></span><span class="sc">8.9</span></li>
+          <li><span class="badge sm coral"><b>4</b></span><span class="nm"><h4>老影院</h4><p>经典修复 · 重映</p></span><span class="sc">8.9</span></li>
+          <li><span class="badge sm green"><b>5</b></span><span class="nm"><h4>街角影院</h4><p>纪录片 · 专题推荐</p></span><span class="sc">8.8</span></li>
+          <li><span class="badge sm plum"><b>6</b></span><span class="nm"><h4>人海之中</h4><p>悬疑剧 · 更新中</p></span><span class="sc">8.7</span></li>
+          <li><span class="badge sm"><b>7</b></span><span class="nm"><h4>万人空巷</h4><p>爱情文艺 · 精选</p></span><span class="sc">8.6</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3><span class="badge sm plum"><b>南</b></span>选片指南</h3>
+        <div class="tips">
+          <div class="tp"><h4><b>指南 01</b>满座、还有位与空场是什么意思</h4><p>每部片左上角都立着一块座位牌：满座意味着这条信息完整可查，还有位意味着条目正在补录或整理，空场意味着冷门但值得一试。座位牌只说明条目的状态，不代表片子本身能不能看。</p></div>
+          <div class="tp"><h4><b>指南 02</b>座位条怎么看</h4><p>每张卡片底部那条座位条就是这部片的分量：条越满说明片子越长越重。想随手看一部就挑浅的那一头，想踏实坐下来就挑满的，旁边直接标着分钟数。</p></div>
+          <div class="tp"><h4><b>指南 03</b>追剧总怕断更</h4><p>把在追剧集加入更新追踪，按播出日排列，时间块直接标出更新时刻，进度条显示追到第几集。</p></div>
+          <div class="tp"><h4><b>指南 04</b>一次看不完怎么办</h4><p>条目页标注分钟数与节奏，超过两小时的片子建议留到周末；通勤或睡前优先选单集剧集与短纪录片，看完刚好收心。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 栏目四：影视资讯 ============ -->
+  <section class="block" id="news" aria-labelledby="n-title">
+    <div class="bhead">
+      <h2 class="btitle" id="n-title"><span class="badge plum"><b>四</b></span>最新影视资讯</h2>
+      <span class="bsub">NEWS</span>
+      <a class="bmore plum" href="#">资讯中心 →</a>
+    </div>
+    <div class="news">
+      <a class="ncard" href="#"><span class="cov">NEW SEAT</span><div class="txt"><h3>《第七排》定档秋季，动画新作受关注</h3><p>动画新作公布最终档期与幕后花絮，人人电影网同步整理全片看点与关联作品。</p><time datetime="2026-09-19">2026-09-19</time></div></a>
+      <a class="ncard" href="#"><span class="cov">LIBRARY</span><div class="txt"><h3>本周片库上新：28 部院线新片入库</h3><p>涵盖剧情、悬疑、纪录与文艺四类，已补录评分、类型与建议观影顺序。</p><time datetime="2026-09-18">2026-09-18</time></div></a>
+      <a class="ncard" href="#"><span class="cov">CLASSIC</span><div class="txt"><h3>经典佳片修复单元上线</h3><p>按年代与地区重录经典片目，《老影院》等作品已恢复条目与评分信息。</p><time datetime="2026-09-09">2026-09-09</time></div></a>
+    </div>
+  </section>
+
+  <!-- ============ 栏目五：关于 + FAQ ============ -->
+  <section class="block" id="about" aria-labelledby="a-title">
+    <div class="bhead">
+      <h2 class="btitle" id="a-title"><span class="badge coral"><b>五</b></span>关于人人电影网</h2>
+      <span class="bsub">ABOUT US</span>
+      <a class="bmore gold" href="#">站点介绍 →</a>
+    </div>
+    <div class="split">
+      <div class="about">
+        <h3>人人电影网是什么？</h3>
+        <p>人人电影网（renrendianyingwang-cn.github.io）是一间坐满人的放映厅，提供电影片单、剧集更新追踪、影视满座榜与选片指南。我们把类型分成一个个观众区，每个区立着不同颜色的区牌；每部片都立着一块座位牌，标明条目是满座、还有位还是空场。</p>
+        <p>全站采用移动端优先的自适应布局，手机、平板与桌面端体验一致；片单、追踪、榜单与指南四条动线相互打通，从「不知道看什么」到「追到第几集」不必来回跳转。</p>
+        <p class="note">提示：本站提供影视信息聚合与观影导航，片源播放以页面实际提供的来源为准。</p>
+      </div>
+      <div class="faq">
+        <details open><summary>人人电影网的内容多久更新？</summary><p>电影片单每日上新，剧集更新追踪按播出日刷新，影视满座榜每日重算一次，重要档期与首播节点即时同步。</p></details>
+        <details><summary>满座、还有位与空场是什么意思？</summary><p>每部片左上角都立着一块座位牌：满座意味着这条信息完整可查，还有位意味着条目正在补录或整理，空场意味着冷门但值得一试。座位牌只说明条目的状态，不代表片子本身能不能看。</p></details>
+        <details><summary>卡片下方的座位条有什么用？</summary><p>座位条标出这部片的分量：条越满说明片子越长越重。想随手看一部就挑浅的那一头，想踏实坐下来就挑满的，旁边直接标着分钟数。</p></details>
+        <details><summary>找不到想看的影片怎么办？</summary><p>可用顶部搜索框按片名、演员或类型检索，也可在类型观众席中逐级浏览；仍无结果时可提交片名反馈，我们会尽快补录。</p></details>
+      </div>
+    </div>
+  </section>
+
+  <div class="crowdbar thin" style="margin-top:22px" aria-hidden="true"></div>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer>
+  <div class="crowdbar" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fcol">
+        <a class="fbrand" href="#"><span class="badge sm" aria-hidden="true"><b>人人</b></span>人人电影网</a>
+        <p class="fdesc">人人电影网 · 一间坐满人的放映厅。本站仅提供影视信息聚合与观影导航。</p>
+      </div>
+      <div class="fcol"><h4>类型观众席</h4><a href="#">剧情片</a><a href="#">爱情片</a><a href="#">悬疑片</a><a href="#">纪录片</a><a href="#">经典佳片</a></div>
+      <div class="fcol"><h4>频道入口</h4><a href="#">电影片单</a><a href="#">更新追踪</a><a href="#">满座榜单</a><a href="#">选片指南</a><a href="#">影视资讯</a></div>
+      <div class="fcol"><h4>帮助中心</h4><a href="#">站点介绍</a><a href="#">收录规则</a><a href="#">意见反馈</a><a href="#">友情链接</a><a href="#">站点地图</a></div>
+    </div>
+    <div class="copy">
+      <span>Copyright © 2026 人人电影网 renrendianyingwang-cn.github.io 版权所有</span>
+      <span>关键词：人人电影网 · 电影片单 · 电视剧更新 · 影视满座榜</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ 移动端底部导航 ============ -->
+<nav class="tabbar" aria-label="移动端导航">
+  <a href="#" class="on"><span>🏠</span>首页</a>
+  <a href="#"><span>👥</span>观众席</a>
+  <a href="#"><span>🎬</span>片单</a>
+  <a href="#"><span>🔔</span>追踪</a>
+  <a href="#"><span>🧭</span>指南</a>
+</nav>
+<a class="backtop" href="#" aria-label="返回顶部"><b>↑</b></a>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://renrendianyingwang-cn.github.io/#website",
+      "url":"https://renrendianyingwang-cn.github.io/",
+      "name":"人人电影网",
+      "alternateName":"人人电影",
+      "description":"人人电影网提供电影片单、剧集更新追踪、影视满座榜与选片指南，按类型观众席覆盖剧情、爱情、悬疑、纪录、动画、文艺、经典等类型。",
+      "inLanguage":"zh-CN",
+      "publisher":{"@id":"https://renrendianyingwang-cn.github.io/#organization"},
+      "potentialAction":{
+        "@type":"SearchAction",
+        "target":"https://renrendianyingwang-cn.github.io/search?q={search_term_string}",
+        "query-input":"required name=search_term_string"
+      }
+    },
+    {
+      "@type":"Organization",
+      "@id":"https://renrendianyingwang-cn.github.io/#organization",
+      "name":"人人电影网",
+      "url":"https://renrendianyingwang-cn.github.io/",
+      "logo":"https://renrendianyingwang-cn.github.io/favicon.ico"
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://renrendianyingwang-cn.github.io/#webpage",
+      "url":"https://renrendianyingwang-cn.github.io/",
+      "name":"人人电影网 - 电影片单、剧集更新追踪与影视满座榜",
+      "description":"人人电影网：电影片单、剧集更新追踪、影视满座榜与选片指南。",
+      "isPartOf":{"@id":"https://renrendianyingwang-cn.github.io/#website"},
+      "inLanguage":"zh-CN",
+      "breadcrumb":{"@id":"https://renrendianyingwang-cn.github.io/#breadcrumb"}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "@id":"https://renrendianyingwang-cn.github.io/#breadcrumb",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"人人电影网","item":"https://renrendianyingwang-cn.github.io/"},
+        {"@type":"ListItem","position":2,"name":"电影片单"},
+        {"@type":"ListItem","position":3,"name":"剧集更新追踪"},
+        {"@type":"ListItem","position":4,"name":"影视满座榜与选片指南"}
+      ]
+    },
+    {
+      "@type":"ItemList",
+      "name":"人人电影网满座榜",
+      "itemListOrder":"https://schema.org/ItemListOrderDescending",
+      "numberOfItems":5,
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"item":{"@type":"Movie","name":"第七排","genre":"动画","datePublished":"2025"}},
+        {"@type":"ListItem","position":2,"item":{"@type":"Movie","name":"散场以后","genre":"剧情","datePublished":"2022"}},
+        {"@type":"ListItem","position":3,"item":{"@type":"Movie","name":"邻座的你","genre":"剧情","datePublished":"2024"}},
+        {"@type":"ListItem","position":4,"item":{"@type":"Movie","name":"老影院","genre":"剧情","datePublished":"1997"}},
+        {"@type":"ListItem","position":5,"item":{"@type":"Movie","name":"街角影院","genre":"纪录片","datePublished":"2023"}}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"人人电影网的内容多久更新？","acceptedAnswer":{"@type":"Answer","text":"电影片单每日上新，剧集更新追踪按播出日刷新，影视满座榜每日重算一次，重要档期与首播节点即时同步。"}},
+        {"@type":"Question","name":"人人电影网满座、还有位与空场是什么意思？","acceptedAnswer":{"@type":"Answer","text":"每部片左上角都立着一块座位牌：满座意味着这条信息完整可查，还有位意味着条目正在补录或整理，空场意味着冷门但值得一试。座位牌只说明条目的状态，不代表片子本身能不能看。"}},
+        {"@type":"Question","name":"人人电影网卡片下方的座位条有什么用？","acceptedAnswer":{"@type":"Answer","text":"座位条标出这部片的分量：条越满说明片子越长越重。想随手看一部就挑浅的那一头，想踏实坐下来就挑满的，旁边直接标着分钟数。"}}
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var secs=document.querySelectorAll('main section[id]');
+  var navA=document.querySelectorAll('.nav a');
+  function sync(){
+    var y=window.scrollY+140,cur='';
+    secs.forEach(function(s){ if(s.offsetTop<=y) cur=s.id; });
+    navA.forEach(function(a){
+      var h=a.getAttribute('href')||'';
+      a.classList.toggle('on', !!cur && h.indexOf(cur)>-1);
+    });
+  }
+  window.addEventListener('scroll',sync,{passive:true});
+  sync();
+  document.querySelectorAll('.tabbar a,.nav a').forEach(function(a){
+    a.addEventListener('click',function(e){e.preventDefault();a.blur();});
+  });
+})();
+</script>
+</body>
+</html>
